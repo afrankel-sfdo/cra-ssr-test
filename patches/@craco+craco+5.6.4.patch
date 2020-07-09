@@ -1,0 +1,15 @@
+diff --git a/node_modules/@craco/craco/lib/features/dev-server/create-config-provider-proxy.js b/node_modules/@craco/craco/lib/features/dev-server/create-config-provider-proxy.js
+index bbde691..4405778 100644
+--- a/node_modules/@craco/craco/lib/features/dev-server/create-config-provider-proxy.js
++++ b/node_modules/@craco/craco/lib/features/dev-server/create-config-provider-proxy.js
+@@ -6,8 +6,8 @@ const { applyDevServerConfigPlugins } = require("../plugins");
+ const { loadDevServerConfigProvider } = require("../../cra");
+ 
+ function createProxy(cracoConfig, craDevServerConfigProvider, context) {
+-    const proxy = (proxy, allowedHost) => {
+-        let devServerConfig = craDevServerConfigProvider(proxy, allowedHost);
++    const proxy = (proxy, allowedHost, ...rest) => {
++        let devServerConfig = craDevServerConfigProvider(proxy, allowedHost, ...rest);
+ 
+         if (isFunction(cracoConfig.devServer)) {
+             devServerConfig = cracoConfig.devServer(devServerConfig, {
