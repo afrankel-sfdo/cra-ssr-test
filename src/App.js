@@ -15,7 +15,7 @@ function App() {
           Edit <code>src/App.js</code> and save to reload!
         </p> 
         <p>
-        {QUERY.loc?.source.name}
+        {QUERY.loc?.source.name ?? 'undefined'}
         </p>
       </header>
     </div>
