@@ -18,6 +18,7 @@
     "serve": "react-scripts serve",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "analyze": "ANALYZE=true react-scripts build",
     "postinstall": "patch-package"
   },
   "eslintConfig": {
