@@ -20,7 +20,7 @@
   },
   "main": "build/node/index.js",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=3333 react-scripts start",
     "build": "react-scripts build",
     "serve": "react-scripts serve",
     "test": "react-scripts test",
