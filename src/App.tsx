@@ -1,8 +1,9 @@
 import React from 'react';
-import logo from './logo.svg';
-import { ReactComponent as Logo } from './logo.svg';
-import './App.css';
+import logo from 'logo.svg';
+import { ReactComponent as Logo } from 'logo.svg';
+import 'App.css';
 import gql from 'graphql-tag';
+import graphql from 'graphql/string'
 
 const QUERY = gql`query do{ me { name }}`;
 
@@ -18,6 +19,7 @@ function App() {
         <p>
         {/* eslint-disable-next-line no-restricted-globals */}
         {QUERY.loc?.source.name ?? 'undefined'}
+        {graphql}
         </p>
         <Logo className="App-logo" />
       </header>
