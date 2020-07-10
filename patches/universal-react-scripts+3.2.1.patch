@@ -1,3 +1,53 @@
+diff --git a/node_modules/universal-react-scripts/config/webpack.config.js b/node_modules/universal-react-scripts/config/webpack.config.js
+index ba18248..a2b7e96 100644
+--- a/node_modules/universal-react-scripts/config/webpack.config.js
++++ b/node_modules/universal-react-scripts/config/webpack.config.js
+@@ -35,6 +35,8 @@ const ModuleNotFoundPlugin = require('universal-react-dev-utils/ModuleNotFoundPl
+ const ForkTsCheckerWebpackPlugin = require('universal-react-dev-utils/ForkTsCheckerWebpackPlugin');
+ const typescriptFormatter = require('universal-react-dev-utils/typescriptFormatter');
+ const eslint = require('eslint');
++const webpack = require('webpack');
++const BundleAnalyzerPlugin = require('webpack-bundle-analyzer/BundleAnalyzerPlugin');
+ // @remove-on-eject-begin
+ const getCacheIdentifier = require('universal-react-dev-utils/getCacheIdentifier');
+ // @remove-on-eject-end
+@@ -71,6 +73,8 @@ module.exports = function(webpackEnv, executionEnv) {
+   const isEnvProduction = webpackEnv === 'production';
+   const isEnvNode = useNodeEnv && executionEnv === 'node';
+   const isEnvWeb = executionEnv === 'web';
++  const isCI = process.env.CI === 'true';
++  const isAnalyze = process.env.ANALYZE
+ 
+   // Variable used for enabling profiling in Production
+   // passed into alias object. Uses a flag if passed into the build command
+@@ -437,6 +441,15 @@ module.exports = function(webpackEnv, executionEnv) {
+                 name: 'static/media/[name].[hash:8].[ext]',
+               },
+             },
++            
++            // Makana Custom Loaders
++            {
++              test: /\.graphql$/,
++              exclude: /node_modules/,
++              loader: require.resolve('graphql-tag/loader'),
++            },
++            // End Makana Custom Loaders
++
+             // Process application JS with Babel.
+             // The preset includes JSX, Flow, TypeScript, and some ESnext features.
+             {
+@@ -623,6 +636,11 @@ module.exports = function(webpackEnv, executionEnv) {
+       ],
+     },
+     plugins: [
++      // Makana Custom Additions
++      isAnalyze && new BundleAnalyzerPlugin(),
++      isCI && new webpack.ProgressPlugin(),
++      // End Makana Custom Additions
++
+       // Generates an `index.html` file with the <script> injected.
+       isEnvWeb &&
+         new HtmlWebpackPlugin(
 diff --git a/node_modules/universal-react-scripts/scripts/start.js b/node_modules/universal-react-scripts/scripts/start.js
 index 31d2e86..e9b1a97 100644
 --- a/node_modules/universal-react-scripts/scripts/start.js
