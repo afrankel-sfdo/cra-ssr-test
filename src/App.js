@@ -1,6 +1,10 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import gql from 'graphql-tag';
+
+const QUERY = gql`query do{ me { name }}`;
+// console.log('query', QUERY);
 
 function App() {
   return (

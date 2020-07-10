@@ -1,17 +1,25 @@
 diff --git a/node_modules/universal-react-scripts/config/webpack.config.js b/node_modules/universal-react-scripts/config/webpack.config.js
-index ba18248..a2b7e96 100644
+index ba18248..e3a716d 100644
 --- a/node_modules/universal-react-scripts/config/webpack.config.js
 +++ b/node_modules/universal-react-scripts/config/webpack.config.js
-@@ -35,6 +35,8 @@ const ModuleNotFoundPlugin = require('universal-react-dev-utils/ModuleNotFoundPl
+@@ -11,7 +11,6 @@
+ const fs = require('fs');
+ const isWsl = require('is-wsl');
+ const path = require('path');
+-const webpack = require('webpack');
+ const resolve = require('resolve');
+ const PnpWebpackPlugin = require('pnp-webpack-plugin');
+ const HtmlWebpackPlugin = require('html-webpack-plugin');
+@@ -35,6 +34,8 @@ const ModuleNotFoundPlugin = require('universal-react-dev-utils/ModuleNotFoundPl
  const ForkTsCheckerWebpackPlugin = require('universal-react-dev-utils/ForkTsCheckerWebpackPlugin');
  const typescriptFormatter = require('universal-react-dev-utils/typescriptFormatter');
  const eslint = require('eslint');
 +const webpack = require('webpack');
-+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer/BundleAnalyzerPlugin');
++const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
  // @remove-on-eject-begin
  const getCacheIdentifier = require('universal-react-dev-utils/getCacheIdentifier');
  // @remove-on-eject-end
-@@ -71,6 +73,8 @@ module.exports = function(webpackEnv, executionEnv) {
+@@ -71,6 +72,8 @@ module.exports = function(webpackEnv, executionEnv) {
    const isEnvProduction = webpackEnv === 'production';
    const isEnvNode = useNodeEnv && executionEnv === 'node';
    const isEnvWeb = executionEnv === 'web';
@@ -20,7 +28,7 @@ index ba18248..a2b7e96 100644
  
    // Variable used for enabling profiling in Production
    // passed into alias object. Uses a flag if passed into the build command
-@@ -437,6 +441,15 @@ module.exports = function(webpackEnv, executionEnv) {
+@@ -437,6 +440,15 @@ module.exports = function(webpackEnv, executionEnv) {
                  name: 'static/media/[name].[hash:8].[ext]',
                },
              },
@@ -36,7 +44,7 @@ index ba18248..a2b7e96 100644
              // Process application JS with Babel.
              // The preset includes JSX, Flow, TypeScript, and some ESnext features.
              {
-@@ -623,6 +636,11 @@ module.exports = function(webpackEnv, executionEnv) {
+@@ -623,6 +635,11 @@ module.exports = function(webpackEnv, executionEnv) {
        ],
      },
      plugins: [
