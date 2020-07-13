@@ -3,9 +3,17 @@ import universal from 'react-universal-component';
 import injectSheet from 'react-jss';
 import 'App.css';
 
-const UniversalComponent = universal((props: { page: string }) =>
-  import(`./${props.page}`)
-);
+declare const require: any;
+
+const load = (props: any) =>
+  Promise.all([
+    import(/* webpackChunkName: '[request]' */ `./${props.page}`),
+  ]).then((proms) => proms[0]);
+
+const UniversalComponent = universal(load, {
+  chunkName: (props) => props.page,
+  resolve: (props) => require.resolveWeak(`./${props.page}`),
+});
 
 const styles = {
   wrapper: {
