@@ -17,7 +17,6 @@ const PLACEHOLDER = {
 };
 
 const renderer = async (request, response) => {
-  
   const client = new ApolloClient({
     ssrMode: true,
     link: createHttpLink({
