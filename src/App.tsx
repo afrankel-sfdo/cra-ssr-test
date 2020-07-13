@@ -1,27 +1,15 @@
 import React from 'react';
-import logo from 'logo.svg';
-import { ReactComponent as Logo } from 'logo.svg';
+import universal from 'react-universal-component';
 import 'App.css';
-import gql from 'graphql-tag';
-import graphql from 'graphqlFix/string'
 
-const QUERY = gql`query do{ me { name }}`;
+const UniversalComponent = universal((props: {page: string}) => import(`./${props.page}`))
 
 function App() {
 
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload!
-        </p> 
-        <p>
-        {/* eslint-disable-next-line no-restricted-globals */}
-        {QUERY.loc?.source.name ?? 'undefined'}
-        {graphql}
-        </p>
-        <Logo className="App-logo" />
+        <UniversalComponent page="home" />
       </header>
     </div>
   );
