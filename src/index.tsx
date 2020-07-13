@@ -2,9 +2,28 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import ApolloClient from 'apollo-client';
+import { ApolloProvider } from '@apollo/react-hooks';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { HttpLink } from 'apollo-link-http';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.hydrate(<App />, document.getElementById('root'));
+const cache = new InMemoryCache().restore((window as any)?.__APOLLO_STATE__);
+const link = new HttpLink({
+  uri: 'https://api.react-finland.fi/graphql',
+});
+
+const client = new ApolloClient({
+  cache: cache,
+  link: link,
+});
+
+ReactDOM.hydrate(
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>,
+  document.getElementById('root')
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

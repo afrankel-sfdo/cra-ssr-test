@@ -1,30 +1,52 @@
 import fs from 'fs';
 import React from 'react';
-import { renderToString } from 'react-dom/server';
+import fetch from 'node-fetch';
 import { JssProvider, SheetsRegistry } from 'react-jss';
+import { ApolloProvider } from '@apollo/react-common';
+import { ApolloClient } from 'apollo-client';
+import { createHttpLink } from 'apollo-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { renderToStringWithData } from '@apollo/react-ssr';
 import 'index.css';
 import App from 'App';
 
 const PLACEHOLDER = {
   CONTENT: '%RENDERED_CONTENT%',
   STYLES: '%STYLES%',
+  APOLLO: '%APOLLO_STATE%',
 };
 
 const renderer = async (request, response) => {
-  // The index.html file is a template, which will have environment variables
-  // and bundled scripts and stylesheets injected during the build step, and
-  // placed at the location specified by `process.env.HTML_TEMPLATE_PATH`.
-  //
-  // To customize the rendered HTML, you can add other placeholder strings,
-  // and replace them within this function -- just as %RENDERED_CONTENT% is
-  // replaced. Note however that if you name the placeholder after an
-  // environment variable available at build time, then it will be
-  // automatically replaced by the build script.
+  
+  const client = new ApolloClient({
+    ssrMode: true,
+    link: createHttpLink({
+      uri: 'https://api.react-finland.fi/graphql',
+      fetch: fetch,
+      // credentials: 'same-origin',
+      // headers: {
+      //   cookie: req.header('Cookie'),
+      // },
+    }),
+    cache: new InMemoryCache({ resultCaching: false }),
+  });
+
   const sheets = new SheetsRegistry();
+  const EnhancedApp = () => (
+    <ApolloProvider client={client}>
+      <JssProvider registry={sheets}>
+        <App />
+      </JssProvider>
+    </ApolloProvider>
+  );
+
+  const body = await renderToStringWithData(EnhancedApp);
+
+  console.log('### body', body);
   let template = fs.readFileSync(process.env.HTML_TEMPLATE_PATH, 'utf8');
-  let body = renderToString(<JssProvider registry={sheets}><App /> </JssProvider>);
   let html = template.replace(PLACEHOLDER.CONTENT, body);
   html = html.replace(PLACEHOLDER.STYLES, sheets.toString());
+  html = html.replace(PLACEHOLDER.APOLLO, JSON.stringify(client.extract()));
   response.send(html);
 };
 
