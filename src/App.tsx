@@ -3,7 +3,7 @@ import logo from 'logo.svg';
 import { ReactComponent as Logo } from 'logo.svg';
 import 'App.css';
 import gql from 'graphql-tag';
-import graphql from 'graphql/string'
+import graphql from 'graphqlFix/string'
 
 const QUERY = gql`query do{ me { name }}`;
 
