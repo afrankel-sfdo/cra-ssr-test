@@ -8,3 +8,5 @@ declare module '*.svg' {
 }
 
 declare module 'reset-jss';
+
+declare module 'babel-plugin-universal-import/universalImport.js';

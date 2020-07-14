@@ -1,5 +1,7 @@
 import React from 'react';
 import universal from 'react-universal-component';
+import universalImport from 'babel-plugin-universal-import/universalImport.js';
+import path from 'path';
 import { useQuery } from '@apollo/react-hooks';
 // FIXME: import naming conflict with node_modules
 // https://github.com/frontarm/create-universal-react-app/issues/9
@@ -9,16 +11,22 @@ import reset from 'reset-jss';
 
 declare const require: any;
 
-const load = (props: any) =>
-  Promise.all([
-    import(/* webpackChunkName: '[request]' */ `./${props.page}`),
-  ]).then((proms) => proms[0]);
+interface IUniversalProps {
+  page: string;
+}
 
 // FIXME: loading issue
 // https://github.com/frontarm/create-universal-react-app/issues/10
-const UniversalComponent = universal(load, {
-  chunkName: (props) => props.page,
-  resolve: (props) => require.resolveWeak(`./${props.page}`),
+const UniversalComponent = universal((props: IUniversalProps) => {
+  return universalImport({
+    chunkName: (props: IUniversalProps) => props.page,
+    path: (props: IUniversalProps) => path.join(__dirname, `./${props.page}`),
+    resolve: (props: IUniversalProps) => require.resolveWeak(`./${props.page}`),
+    load: (props: IUniversalProps) =>
+      Promise.all([
+        import(/* webpackChunkName: '[request]' */ `./${props.page}`),
+      ]).then((proms) => proms[0]),
+  });
 });
 
 const useStyles = createUseStyles({
@@ -42,7 +50,7 @@ const App = () => {
         : data.allSeries.map((series: any) => (
             <div key={series.id}>{series.name}</div>
           ))}
-      {false && <UniversalComponent page="home" />}
+      <UniversalComponent page="home" />
     </header>
   );
 };

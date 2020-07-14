@@ -1,5 +1,5 @@
 diff --git a/node_modules/universal-react-scripts/config/webpack.config.js b/node_modules/universal-react-scripts/config/webpack.config.js
-index ba18248..e3a716d 100644
+index ba18248..68e8e1b 100644
 --- a/node_modules/universal-react-scripts/config/webpack.config.js
 +++ b/node_modules/universal-react-scripts/config/webpack.config.js
 @@ -11,7 +11,6 @@
@@ -28,7 +28,20 @@ index ba18248..e3a716d 100644
  
    // Variable used for enabling profiling in Production
    // passed into alias object. Uses a flag if passed into the build command
-@@ -437,6 +440,15 @@ module.exports = function(webpackEnv, executionEnv) {
+@@ -236,7 +239,11 @@ module.exports = function(webpackEnv, executionEnv) {
+           // When performing server side rendering, the app should load modules
+           // from node_modules instead of bundling them. This function take care
+           // of making sure that any module in node_modules is treated as external.
+-          nodeExternals(),
++          nodeExternals({
++            whitelist: [
++              /babel-plugin-universal-import|react-universal-component/
++            ]
++          }),
+         ],
+     optimization: {
+       minimize: isEnvProduction,
+@@ -437,6 +444,15 @@ module.exports = function(webpackEnv, executionEnv) {
                  name: 'static/media/[name].[hash:8].[ext]',
                },
              },
@@ -44,13 +57,16 @@ index ba18248..e3a716d 100644
              // Process application JS with Babel.
              // The preset includes JSX, Flow, TypeScript, and some ESnext features.
              {
-@@ -623,6 +635,11 @@ module.exports = function(webpackEnv, executionEnv) {
+@@ -623,6 +639,14 @@ module.exports = function(webpackEnv, executionEnv) {
        ],
      },
      plugins: [
 +      // Makana Custom Additions
 +      isAnalyze && new BundleAnalyzerPlugin(),
 +      isCI && new webpack.ProgressPlugin(),
++      isEnvNode && new webpack.optimize.LimitChunkCountPlugin({
++        maxChunks: 1,                               
++      }),
 +      // End Makana Custom Additions
 +
        // Generates an `index.html` file with the <script> injected.
