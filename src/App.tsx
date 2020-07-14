@@ -1,7 +1,5 @@
 import 'cross-fetch/polyfill';
 import React from 'react';
-import universal from 'react-universal-component';
-import injectSheet from 'react-jss';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { useQuery } from '@apollo/react-hooks';
@@ -12,15 +10,6 @@ import 'App.css';
 
 declare const require: any;
 
-const load = (props: any) =>
-  Promise.all([
-    import(/* webpackChunkName: '[request]' */ `./${props.page}`),
-  ]).then((proms) => proms[0]);
-
-const UniversalComponent = universal(load, {
-  chunkName: (props) => props.page,
-  resolve: (props) => require.resolveWeak(`./${props.page}`),
-});
 
 const client = new ApolloClient({
   uri: 'https://api.react-finland.fi/graphql',
@@ -40,9 +29,9 @@ const App = () => {
     <div className={wrapper}>
       <div className="App">
         <header className="App-header">
-          {!loading &&
-            data.allSeries.map((series: any) => <div>{series.name}</div>)}
-          <UniversalComponent page="home" />
+          {loading
+            ? 'graphql loading'
+            : data.allSeries.map((series: any) => <div>{series.name}</div>)}
         </header>
       </div>
     </div>
