@@ -22,10 +22,6 @@ const renderer = async (request, response) => {
     link: createHttpLink({
       uri: 'https://api.react-finland.fi/graphql',
       fetch: fetch,
-      // credentials: 'same-origin',
-      // headers: {
-      //   cookie: req.header('Cookie'),
-      // },
     }),
     cache: new InMemoryCache({ resultCaching: false }),
   });
@@ -33,16 +29,17 @@ const renderer = async (request, response) => {
   const sheets = new SheetsRegistry();
   const EnhancedApp = () => (
     <ApolloProvider client={client}>
-     <JssProvider registry={sheets}>
-      <App />
-     </JssProvider>
-     </ApolloProvider>
+      <JssProvider registry={sheets}>
+        <App />
+      </JssProvider>
+    </ApolloProvider>
   );
 
   const body = await renderToStringWithData(<EnhancedApp />);
 
   let template = fs.readFileSync(process.env.HTML_TEMPLATE_PATH, 'utf8');
-  let html = template.replace(PLACEHOLDER.CONTENT, body);
+  let html = template;
+  html = html.replace(PLACEHOLDER.CONTENT, body);
   html = html.replace(PLACEHOLDER.STYLES, sheets.toString());
   html = html.replace(PLACEHOLDER.APOLLO, JSON.stringify(client.extract()));
   response.send(html);
