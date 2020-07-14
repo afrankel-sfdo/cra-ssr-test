@@ -1,7 +1,9 @@
 import fs from 'fs';
 import React from 'react';
 import fetch from 'node-fetch';
-import { clearChunks, flushChunkNames } from 'react-universal-component/server';
+import {
+  clearChunks /*, flushChunkNames*/,
+} from 'react-universal-component/server';
 import { JssProvider, SheetsRegistry } from 'react-jss';
 import { ApolloProvider } from '@apollo/react-common';
 import { ApolloClient } from 'apollo-client';
@@ -9,9 +11,8 @@ import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { /*renderToStringWithData,*/ getDataFromTree } from '@apollo/react-ssr';
 import { renderToString } from 'react-dom/server';
-import flushChunks from 'webpack-flush-chunks';
+// import flushChunks from 'webpack-flush-chunks';
 import App from 'App';
-import clientStats from './stats.json';
 
 const PLACEHOLDER = {
   CONTENT: '%RENDERED_CONTENT%',
@@ -43,9 +44,11 @@ const renderer = async (request, response) => {
 
     clearChunks();
     const body = renderToString(<EnhancedApp />);
-    const chunkNames = flushChunkNames();
-    // TODO: grab chunks to inject to HTML
-    flushChunks(clientStats, { chunkNames });
+    // const stats = response.locals.webpackStats.stats[0];
+    // console.log('stats', stats);
+    // const chunkNames = flushChunkNames();
+    // TODO: grab js chunks to inject to HTML
+    // flushChunks(stats, { chunkNames });
 
     let template = fs.readFileSync(process.env.HTML_TEMPLATE_PATH, 'utf8');
     let html = template;
