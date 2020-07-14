@@ -15,6 +15,8 @@ const load = (props: any) =>
     import(/* webpackChunkName: '[request]' */ `./${props.page}`),
   ]).then((proms) => proms[0]);
 
+// FIXME: loading issue
+// https://github.com/frontarm/create-universal-react-app/issues/10
 const UniversalComponent = universal(load, {
   chunkName: (props) => props.page,
   resolve: (props) => require.resolveWeak(`./${props.page}`),
@@ -36,6 +38,8 @@ const App = () => {
     <div className={wrapper}>
       <div className="App">
         <header className="App-header">
+          {/* FIXME: loading issue
+              https://github.com/frontarm/create-universal-react-app/issues/10 */}
           {loading? 'loading query' :
             data.allSeries.map((series: any) => (
               <div key={series.id}>{series.name}</div>
