@@ -7,6 +7,7 @@ import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { renderToStringWithData } from '@apollo/react-ssr';
+// import { renderToString } from 'react-dom/server';
 import 'index.css';
 import App from 'App';
 
@@ -33,15 +34,14 @@ const renderer = async (request, response) => {
   const sheets = new SheetsRegistry();
   const EnhancedApp = () => (
     <ApolloProvider client={client}>
-      <JssProvider registry={sheets}>
-        <App />
-      </JssProvider>
-    </ApolloProvider>
+     <JssProvider registry={sheets}>
+      <App />
+     </JssProvider>
+     </ApolloProvider>
   );
 
-  const body = await renderToStringWithData(EnhancedApp);
+  const body = await renderToStringWithData(<EnhancedApp />);
 
-  console.log('### body', body);
   let template = fs.readFileSync(process.env.HTML_TEMPLATE_PATH, 'utf8');
   let html = template.replace(PLACEHOLDER.CONTENT, body);
   html = html.replace(PLACEHOLDER.STYLES, sheets.toString());

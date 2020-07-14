@@ -32,18 +32,15 @@ const App = () => {
   const { loading, data } = useQuery(querySeries);
   const { wrapper } = useStyles();
 
-  console.log('### query', loading, data);
-
   return (
     <div className={wrapper}>
       <div className="App">
         <header className="App-header">
-          {/* FIXME: loading issue
-              https://github.com/frontarm/create-universal-react-app/issues/10 */}
-          {loading? 'loading query' :
-            data.allSeries.map((series: any) => (
-              <div key={series.id}>{series.name}</div>
-            ))}
+          {loading
+            ? 'loading query'
+            : data.allSeries.map((series: any) => (
+                <div key={series.id}>{series.name}</div>
+              ))}
           <UniversalComponent page="home" />
         </header>
       </div>
@@ -51,6 +48,4 @@ const App = () => {
   );
 };
 
-const Apollo = () => <App />;
-
-export default Apollo;
+export default App;
