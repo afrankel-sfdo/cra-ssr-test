@@ -12,8 +12,8 @@ import App from 'App';
 
 const PLACEHOLDER = {
   CONTENT: '%RENDERED_CONTENT%',
-  STYLES: '%STYLES%',
-  APOLLO: '%APOLLO_STATE%',
+  STYLES: '/*%STYLES%*/',
+  APOLLO: "'%APOLLO_STATE%'",
 };
 
 const renderer = async (request, response) => {
