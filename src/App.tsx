@@ -5,8 +5,7 @@ import { useQuery } from '@apollo/react-hooks';
 // https://github.com/frontarm/create-universal-react-app/issues/9
 import querySeries from 'graphqlFix/series';
 import { createUseStyles } from 'react-jss';
-
-import 'App.css';
+import reset from 'reset-jss';
 
 declare const require: any;
 
@@ -23,27 +22,30 @@ const UniversalComponent = universal(load, {
 });
 
 const useStyles = createUseStyles({
+  ...reset,
   wrapper: {
-    border: '4px solid black',
+    height: '100%',
+    width: '100%',
+  },
+  header: {
+    backgroundColor: 'grey',
   },
 });
 
 const App = () => {
   const { loading, data } = useQuery(querySeries);
-  const { wrapper } = useStyles();
+  const { wrapper, header } = useStyles();
 
   return (
     <div className={wrapper}>
-      <div className="App">
-        <header className="App-header">
-          {loading
-            ? 'loading query'
-            : data.allSeries.map((series: any) => (
-                <div key={series.id}>{series.name}</div>
-              ))}
-          <UniversalComponent page="home" />
-        </header>
-      </div>
+      <header className={header}>
+        {loading
+          ? 'loading query'
+          : data.allSeries.map((series: any) => (
+              <div key={series.id}>{series.name}</div>
+            ))}
+        {false && <UniversalComponent page="home" />}
+      </header>
     </div>
   );
 };

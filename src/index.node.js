@@ -8,7 +8,6 @@ import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { renderToStringWithData } from '@apollo/react-ssr';
 // import { renderToString } from 'react-dom/server';
-import 'index.css';
 import App from 'App';
 
 const PLACEHOLDER = {

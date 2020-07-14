@@ -8987,6 +8987,11 @@ requires-port@^1.0.0:
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
 
+reset-jss@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/reset-jss/-/reset-jss-1.0.0.tgz#ab962773485ae56b8538be3eceebace1bb46f169"
+  integrity sha512-j+PEnE/UiAhVT+UcvsbelaGkG7MpkOfoRFPbgNAnDFkgtCAqjgmA3TlxyfgK85oUDHrhd1YQ7OV6Jfuo9Q7vpw==
+
 resolve-cwd@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/resolve-cwd/-/resolve-cwd-2.0.0.tgz#00a9f7387556e27038eae232caa372a6a59b665a"
