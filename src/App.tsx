@@ -23,30 +23,27 @@ const UniversalComponent = universal(load, {
 
 const useStyles = createUseStyles({
   ...reset,
-  wrapper: {
-    height: '100%',
-    width: '100%',
-  },
   header: {
-    backgroundColor: 'grey',
+    backgroundColor: 'lightgrey',
+    padding: 20,
+    height: '100vh',
+    width: '100vw',
   },
 });
 
 const App = () => {
   const { loading, data } = useQuery(querySeries);
-  const { wrapper, header } = useStyles();
+  const { header } = useStyles();
 
   return (
-    <div className={wrapper}>
-      <header className={header}>
-        {loading
-          ? 'loading query'
-          : data.allSeries.map((series: any) => (
-              <div key={series.id}>{series.name}</div>
-            ))}
-        {false && <UniversalComponent page="home" />}
-      </header>
-    </div>
+    <header className={header}>
+      {loading
+        ? 'loading query'
+        : data.allSeries.map((series: any) => (
+            <div key={series.id}>{series.name}</div>
+          ))}
+      {false && <UniversalComponent page="home" />}
+    </header>
   );
 };
 
