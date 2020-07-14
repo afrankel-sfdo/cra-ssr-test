@@ -24,9 +24,9 @@ const UniversalComponent = universal(load, {
 const useStyles = createUseStyles({
   ...reset,
   header: {
-    backgroundColor: 'lightgrey',
+    backgroundColor: '#efefef',
     padding: 20,
-    height: '100vh',
+    minHeight: '100vh',
     width: '100vw',
   },
 });

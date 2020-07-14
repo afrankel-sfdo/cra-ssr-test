@@ -1,29 +1,22 @@
 import React from 'react';
-import logo from 'logo.svg';
 import { ReactComponent as Logo } from 'logo.svg';
-import injectSheet from 'react-jss';
+import { createUseStyles } from 'react-jss';
 
-const styles = {
-  paragraph: {
-    color: '#09d3ac',
+const useStyles = createUseStyles({
+  logo: {
+    maxWidth: 250,
+    height: 'auto',
   },
-};
+});
 
-const Home = ({ classes }: { classes: { paragraph: string } }) => {
+const Home = () => {
+  const { logo } = useStyles();
 
   return (
     <>
-      <img src={logo} className="App-logo" alt="logo" />
-      <p>
-        Edit <code>src/App.tsx</code> and save to reload!
-      </p>
-      <p className={classes.paragraph}>
-        {/* eslint-disable-next-line no-restricted-globals */}
-
-      </p>
-      <Logo className="App-logo" />
+      <Logo className={logo} />
     </>
   );
 };
 
-export default injectSheet(styles)(Home);
+export default Home;
