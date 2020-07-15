@@ -1,7 +1,5 @@
 import React from 'react';
 import universal from 'react-universal-component';
-import universalImport from 'babel-plugin-universal-import/universalImport.js';
-import path from 'path';
 import { useQuery } from '@apollo/react-hooks';
 // FIXME: import naming conflict with node_modules
 // https://github.com/frontarm/create-universal-react-app/issues/9
@@ -15,18 +13,16 @@ interface IUniversalProps {
   page: string;
 }
 
-// FIXME: loading issue
-// https://github.com/frontarm/create-universal-react-app/issues/10
-const UniversalComponent = universal((props: IUniversalProps) => {
-  return universalImport({
-    chunkName: (props: IUniversalProps) => props.page,
-    path: (props: IUniversalProps) => path.join(__dirname, `./${props.page}`),
-    resolve: (props: IUniversalProps) => require.resolveWeak(`./${props.page}`),
-    load: (props: IUniversalProps) =>
-      Promise.all([
-        import(/* webpackChunkName: '[request]' */ `./${props.page}`),
-      ]).then((proms) => proms[0]),
-  });
+const load = (props: IUniversalProps) =>
+  Promise.all([
+    import(/* webpackChunkName: '[request]' */ `pages/${props.page}`),
+  ]).then((proms) => proms[0]);
+
+const UniversalComponent = universal(load, {
+  chunkName: (props) => props.page,
+  resolve: (props) => require.resolveWeak(`pages/${props.page}`),
+  loading: () => <div>custom loading...</div>,
+  error: () => <div>custom error!</div>,
 });
 
 const useStyles = createUseStyles({
