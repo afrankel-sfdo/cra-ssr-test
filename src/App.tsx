@@ -5,6 +5,7 @@ import { useQuery } from '@apollo/react-hooks';
 // https://github.com/frontarm/create-universal-react-app/issues/9
 import querySeries from 'graphqlFix/series';
 import { createUseStyles } from 'react-jss';
+import { get } from 'lodash-es';
 import reset from 'reset-jss';
 
 declare const require: any;
@@ -41,6 +42,7 @@ const App = () => {
 
   return (
     <header className={header}>
+      {get({ key: 'hello' }, 'key')}
       {loading
         ? 'loading query'
         : data.allSeries.map((series: any) => (

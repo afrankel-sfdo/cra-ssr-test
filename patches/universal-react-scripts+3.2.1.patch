@@ -1,5 +1,5 @@
 diff --git a/node_modules/universal-react-scripts/config/webpack.config.js b/node_modules/universal-react-scripts/config/webpack.config.js
-index ba18248..68e8e1b 100644
+index ba18248..ff812fc 100644
 --- a/node_modules/universal-react-scripts/config/webpack.config.js
 +++ b/node_modules/universal-react-scripts/config/webpack.config.js
 @@ -11,7 +11,6 @@
@@ -35,7 +35,7 @@ index ba18248..68e8e1b 100644
 -          nodeExternals(),
 +          nodeExternals({
 +            whitelist: [
-+              /babel-plugin-universal-import|react-universal-component/
++              /babel-plugin-universal-import|react-universal-component|lodash-es/
 +            ]
 +          }),
          ],
