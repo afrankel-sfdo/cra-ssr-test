@@ -3,7 +3,7 @@ import universal from 'react-universal-component';
 import { useQuery } from '@apollo/react-hooks';
 // FIXME: import naming conflict with node_modules
 // https://github.com/frontarm/create-universal-react-app/issues/9
-import querySeries from 'graphqlFix/series';
+import querySeries from 'graphql/series';
 import { createUseStyles } from 'react-jss';
 import { get } from 'lodash-es';
 import reset from 'reset-jss';
