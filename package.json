@@ -20,7 +20,7 @@
     "graphql": "^15.3.0",
     "graphql-tag": "^2.10.4",
     "lodash-es": "^4.17.15",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-jss": "^10.3.0",
